@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,11 +41,14 @@ public class Fragment3 extends Fragment {
         progressDrawable.setCenterRadius(50f);
         progressDrawable.start();
         String uri = getArguments().getString("uri");
+        String description = getArguments().getString("description");
         ImageView imageView1 = getView().findViewById(R.id.image_view3);
+        TextView textView1 = getView().findViewById(R.id.text_view3);
         Glide.with(this)
                 .asGif()
                 .placeholder(progressDrawable)
                 .load(uri)
                 .into(imageView1);
+        textView1.setText(description);
     }
 }

@@ -3,6 +3,7 @@ package com.ivan.boldyrev;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -40,14 +41,18 @@ public class Request {
                 }
 
                 String uri = "";
+                String description = "";
                 Result posts = response.body();
 
                 switch (tab) {
                     case "hot":
                         try {
                             uri = posts.getPosts().get(0).getGifURL();
+                            description = posts.getPosts().get(0).getDescription();
                             ImageView imageView = fragment.getView().findViewById(R.id.image_view2);
+                            TextView textView = fragment.getView().findViewById(R.id.text_view2);
                             Glide.with(fragment.getActivity()).asGif().load(uri).into(imageView);
+                            textView.setText(description);
                         } catch (IndexOutOfBoundsException e) {
                             ImageView imageView = fragment.getView().findViewById(R.id.image_view2);
                             imageView.setImageResource(fragment.getResources().getIdentifier("ic_notfound", "drawable", fragment.getActivity().getPackageName()));
@@ -56,8 +61,11 @@ public class Request {
                     case "latest":
                         try {
                             uri = posts.getPosts().get(0).getGifURL();
+                            description = posts.getPosts().get(0).getDescription();
                             ImageView imageView = fragment.getView().findViewById(R.id.image_view3);
+                            TextView textView = fragment.getView().findViewById(R.id.text_view3);
                             Glide.with(fragment.getActivity()).asGif().load(uri).into(imageView);
+                            textView.setText(description);
                         } catch (IndexOutOfBoundsException e) {
                             ImageView imageView = fragment.getView().findViewById(R.id.image_view3);
                             imageView.setImageResource(fragment.getResources().getIdentifier("ic_notfound", "drawable", fragment.getActivity().getPackageName()));
@@ -66,8 +74,11 @@ public class Request {
                     default:
                         try {
                             uri = posts.getPosts().get(0).getGifURL();
+                            description = posts.getPosts().get(0).getDescription();
                             ImageView imageView = fragment.getView().findViewById(R.id.image_view1);
+                            TextView textView = fragment.getView().findViewById(R.id.text_view1);
                             Glide.with(fragment.getActivity()).asGif().load(uri).into(imageView);
+                            textView.setText(description);
                         } catch (IndexOutOfBoundsException e) {
                             ImageView imageView = fragment.getView().findViewById(R.id.image_view1);
                             imageView.setImageResource(fragment.getResources().getIdentifier("ic_notfound", "drawable", fragment.getActivity().getPackageName()));
@@ -89,6 +100,7 @@ public class Request {
         int page;
 
         String uri;
+        String description;
         Result posts;
         switch (currentFragment) {
             case 1:
@@ -97,7 +109,9 @@ public class Request {
                     page = (fragment2.postNum - 1) / 5;
                     posts = results.get(currentFragment).get(page);
                     uri = posts.getPosts().get(fragment2.postNum - page * 5 - 1).getGifURL();
+                    description = posts.getPosts().get(fragment2.postNum - page * 5 - 1).getDescription();
                     bundle.putString("uri", uri);
+                    bundle.putString("description", description);
                     fragment2.setArguments(bundle);
                     fragment2.reloadView();
                 }
@@ -113,7 +127,9 @@ public class Request {
                     page = (fragment3.postNum - 1) / 5;
                     posts = results.get(currentFragment).get(page);
                     uri = posts.getPosts().get(fragment3.postNum - page * 5 - 1).getGifURL();
+                    description = posts.getPosts().get(fragment3.postNum - page * 5 - 1).getDescription();
                     bundle.putString("uri", uri);
+                    bundle.putString("description", description);
                     fragment3.setArguments(bundle);
                     fragment3.reloadView();
                 } catch (IndexOutOfBoundsException e) {
@@ -129,7 +145,9 @@ public class Request {
                     page = (fragment1.postNum - 1) / 5;
                     posts = results.get(currentFragment).get(page);
                     uri = posts.getPosts().get(fragment1.postNum - page * 5 - 1).getGifURL();
+                    description = posts.getPosts().get(fragment1.postNum - page * 5 - 1).getDescription();
                     bundle.putString("uri", uri);
+                    bundle.putString("description", description);
                     fragment1.setArguments(bundle);
                     fragment1.reloadView();
                 } catch (IndexOutOfBoundsException e) {
@@ -178,13 +196,16 @@ public class Request {
             buttonNext.setClickable(false);
 
             String uri;
+            String description;
             Result posts = results.get(currentFragment).get(page);
                 switch (currentFragment) {
                     case 1:
                         Fragment2 fragment2 = (Fragment2) adapter.hashMap.get(currentFragment);
                         try {
                             uri = posts.getPosts().get(fragment2.postNum - page * 5 + 1).getGifURL();
+                            description = posts.getPosts().get(fragment2.postNum - page * 5 + 1).getDescription();
                             bundle.putString("uri", uri);
+                            bundle.putString("description", description);
                             fragment2.setArguments(bundle);
                             fragment2.reloadView();
                             fragment2.postNum += 1;
@@ -197,6 +218,9 @@ public class Request {
                         Fragment3 fragment3 = (Fragment3) adapter.hashMap.get(currentFragment);
                         try {
                             uri = posts.getPosts().get(fragment3.postNum - page * 5 + 1).getGifURL();
+                            description = posts.getPosts().get(fragment3.postNum - page * 5 + 1).getDescription();
+                            bundle.putString("uri", uri);
+                            bundle.putString("description", description);
                             bundle.putString("uri", uri);
                             fragment3.setArguments(bundle);
                             fragment3.reloadView();
@@ -210,6 +234,9 @@ public class Request {
                         Fragment1 fragment1 = (Fragment1) adapter.hashMap.get(currentFragment);
                         try {
                             uri = posts.getPosts().get(fragment1.postNum - page * 5 + 1).getGifURL();
+                            description = posts.getPosts().get(fragment1.postNum - page * 5 + 1).getDescription();
+                            bundle.putString("uri", uri);
+                            bundle.putString("description", description);
                             bundle.putString("uri", uri);
                             fragment1.setArguments(bundle);
                             fragment1.reloadView();
@@ -236,6 +263,7 @@ public class Request {
                     }
 
                     String uri = "";
+                    String description = "";
                     Result posts = response.body();
                     results.get(currentFragment).add(posts);
 
@@ -244,7 +272,9 @@ public class Request {
                             Fragment2 fragment2 = (Fragment2) adapter.hashMap.get(currentFragment);
                             try {
                                 uri = posts.getPosts().get(fragment2.postNum - page * 5 + 1).getGifURL();
+                                description = posts.getPosts().get(fragment2.postNum - page * 5 + 1).getDescription();
                                 bundle.putString("uri", uri);
+                                bundle.putString("description", description);
                                 fragment2.setArguments(bundle);
                                 fragment2.reloadView();
                                 fragment2.postNum += 1;
@@ -257,7 +287,9 @@ public class Request {
                             Fragment3 fragment3 = (Fragment3) adapter.hashMap.get(currentFragment);
                             try {
                                 uri = posts.getPosts().get(fragment3.postNum - page * 5 + 1).getGifURL();
+                                description = posts.getPosts().get(fragment3.postNum - page * 5 + 1).getDescription();
                                 bundle.putString("uri", uri);
+                                bundle.putString("description", description);
                                 fragment3.setArguments(bundle);
                                 fragment3.reloadView();
                                 fragment3.postNum += 1;
@@ -270,7 +302,9 @@ public class Request {
                             Fragment1 fragment1 = (Fragment1) adapter.hashMap.get(currentFragment);
                             try {
                                 uri = posts.getPosts().get(fragment1.postNum - page * 5 + 1).getGifURL();
+                                description = posts.getPosts().get(fragment1.postNum - page * 5 + 1).getDescription();
                                 bundle.putString("uri", uri);
+                                bundle.putString("description", description);
                                 fragment1.setArguments(bundle);
                                 fragment1.reloadView();
                                 fragment1.postNum += 1;
